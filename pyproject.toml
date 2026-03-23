@@ -1,0 +1,16 @@
+[project]
+name = "kaggleagi"
+version = "0.1.0"
+description = "Local kaggle-benchmarks testing"
+requires-python = ">=3.11"
+dependencies = [
+    "kaggle-benchmarks>=0.2.0",
+    "pandas",
+    "python-dotenv",
+    "jupyter",
+    "ipykernel",
+]
+
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
