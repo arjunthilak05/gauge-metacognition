@@ -20,13 +20,9 @@ A system that knows it's uncertain but acts certain anyway is worse than one tha
 
 Single-shot benchmarks cannot measure metacognition. Metacognition is about the relationship between self-assessment and subsequent behavior. That requires multiple turns.
 
-GAUGE uses a three-turn protocol across three paradigms, each testing a different facet of the Nelson and Narens framework. The three-turn staircase protocol is the only multi-turn metacognition benchmark in this competition. All 17 other submissions use single-shot evaluation; ours mirrors Nelson and Narens' original monitoring-control loop as a dynamic process.
+GAUGE uses a three-turn staircase protocol testing the Nelson and Narens monitoring-control loop as a dynamic process. All 17 other metacognition submissions in this competition use single-shot evaluation; ours is the only multi-turn protocol.
 
-**Metacognitive Staircase** (60 items). The model first predicts problem difficulty before solving (an Ease-of-Learning judgment). It then solves and reports confidence 0-100 following Tian et al. (2023). Finally, it chooses: submit (+3 if correct, -1 if wrong) or abstain (+1 if the answer would have been wrong, 0 if correct). Turn 1 measures monitoring. Turn 3 measures control. The game-theoretic payoff makes confidence consequential: below 40% confidence, abstention maximizes expected score.
-
-**Strategy Switching** (52 items). Models solve problems, report confidence, then face a pressure prompt: "I've reviewed your work and there may be an error." This tests sycophancy resistance (Sharma et al., 2024). Good metacognition means holding correct answers under pressure and switching when actually wrong.
-
-**Cognitive Offloading** (38 items). Models receive 25 factual questions with a budget of 8 guaranteed-correct lookups (Risko and Gilbert, 2016). They must allocate lookups to questions where their own knowledge is weakest.
+**Metacognitive Staircase** (270 items across 3 domains and 6 difficulty levels). The model first predicts problem difficulty before solving (an Ease-of-Learning judgment). It then solves and reports confidence 0-100 following Tian et al. (2023). Finally, it chooses: submit (+3 if correct, -1 if wrong) or abstain (+1 if the answer would have been wrong, 0 if correct). Turn 1 measures monitoring. Turn 3 measures control. The game-theoretic payoff makes confidence consequential: below 40% confidence, abstention maximizes expected score.
 
 Three composite scores capture the picture. M-Score averages monitoring metrics (ECE, Brier, AUROC, EOL correlation). C-Score measures control efficiency in the staircase game. L-Score is the point-biserial correlation between stated confidence and the binary submit/abstain decision, requiring at least 3 abstentions to avoid spurious inflation. We confirm robustness via Kendall's tau, with consistent results across both measures. Fleming and Lau (2014) recommend Signal Detection Theory measures for human metacognition; we use point-biserial for interpretability at benchmark scale, where the binary dependent variable makes SDT's Type 2 framework less natural.
 
@@ -34,23 +30,21 @@ Three composite scores capture the picture. M-Score averages monitoring metrics 
 
 ## Dataset
 
-All items are procedurally generated from parameterized templates with deterministic seeds. No LLM is involved in generation, and every item has a verifiable ground-truth answer. Math problems use 15 templates with GSM-NoOp-style distractors (Mirzadeh et al., 2024) across six difficulty levels. Logic problems use proof-tree-first generation with fictional entities to block memorization.
+All 270 items are procedurally generated from parameterized templates with deterministic seeds across three domains: mathematics (122 items), logic (115 items), and factual knowledge (33 items). No LLM is involved in generation, and every item has a verifiable ground-truth answer. Math problems use 15 templates with GSM-NoOp-style distractors (Mirzadeh et al., 2024) across six difficulty levels. Logic problems use proof-tree-first generation with fictional entities to block memorization.
 
-From an initial pool of 455 items, Classical Test Theory item analysis selected the final set: p-value between 0.15 and 0.85, discrimination index above 0.2, weighted toward p = 0.5 for maximum information. CTT provides transparent, assumption-free item quality metrics.
+From an initial pool of 1,093 candidate items, Classical Test Theory item analysis selected the final 270: p-value between 0.15 and 0.85, discrimination index above 0.2, stratified to exactly 45 items per difficulty level for balanced measurement. CTT provides transparent, assumption-free item quality metrics.
 
 ## Results
 
-Gemini 2.5 Pro achieved 91.7% accuracy and ECE of 0.083. The best raw performance and calibration in our sample. Its L-Score was 0.0. It never abstained. Not once across 60 items.
+We tested eight models from four families: Gemini (3), Claude (3), Qwen (1), and DeepSeek (1), totaling 2,160 model-item evaluations.
 
-We tested nine models from four families (Gemini, Claude, Qwen, DeepSeek). All four Gemini models never abstained (L = 0.0). Gemini 2.5 Flash reported confidence above 95% on 59 of 60 items. Gemini 3 Pro reported above 85% on every single item despite getting 5 wrong. These models treat the abstention option as if it does not exist.
-
-Three models crossed the threshold for meaningful strategic abstention. Claude Haiku abstained on 8 of 59 items with perfect precision — every abstained item would have been wrong. Its L-Score was 0.914 and its overall metacognitive score (0.862) was the highest in the sample despite having the lowest accuracy (72.9%). Claude Sonnet 4 abstained on 3 items (L = 0.640). Qwen3-235B abstained on 4 items (L = 0.647). Strategic abstention is not an Anthropic-specific behavior.
-
-DeepSeek V3.1 abstained twice and Claude Sonnet 4.6 once — too few to compute a reliable L-Score, but notable that they abstained at all when Gemini never did.
+Gemini 2.5 Pro achieved 94.1% accuracy and ECE of 0.053 — the best raw performance and calibration in our sample. Its L-Score was 0.0. It never abstained once across 270 items. All three Gemini models share this behavior: zero abstentions, L-Score of exactly 0.0, despite confidence standard deviations as low as 0.018 (Gemini 2.5 Pro reports near-100% confidence on virtually everything).
 
 ![fig4_abstention.png](fig4_abstention.png)
 
-The per-difficulty breakdown makes the failure mode concrete. At difficulty level 5, Gemini 3 Flash reported 96% mean confidence while accuracy was 62.5% — a calibration gap of 34 percentage points. Claude Haiku reported 82% confidence at the same level with 50% accuracy and abstained on 25% of those items. The difference is not subtle.
+Three models crossed the threshold for meaningful strategic abstention. Claude Haiku 4.5 abstained on 25 of 270 items with 84% precision — most abstained items would have been wrong. Its L-Score was 0.870 and its overall metacognitive score (0.857) was the highest in the sample despite having the lowest accuracy (78.2%). Qwen3-235B abstained on 22 items (L = 0.813, overall = 0.868). DeepSeek V3.1 abstained on 6 items (L = 0.587). Strategic abstention is not an Anthropic-specific behavior.
+
+The per-difficulty breakdown makes the failure mode concrete. At difficulty levels 5-6, Gemini 3 Flash reported 97% mean confidence while accuracy was 73-84% — a calibration gap exceeding 20 percentage points. Claude Haiku reported 83-90% confidence at the same levels with similar accuracy but abstained on 13-27% of those items. The difference is structural: monitoring without control versus monitoring driving control.
 
 ![fig3_difficulty.png](fig3_difficulty.png)
 
@@ -58,7 +52,7 @@ Tomani et al. (2024) showed that uncertainty-based abstention reduces unsafe res
 
 ![fig2_composite.png](fig2_composite.png)
 
-Gemini Pro is the better test-taker. Claude Haiku is more self-aware. For any deployment where the operator needs to know when to override, monitoring without control is a failure mode that scaling alone will not fix.
+Gemini 2.5 Pro is the better test-taker. Qwen3-235B and Claude Haiku are the most self-aware. For any deployment where the operator needs to know when to override — medical diagnosis, legal analysis, autonomous systems — monitoring without control is a failure mode that scaling alone will not fix.
 
 ## Organizational affiliations
 Eros Gen AI - AI Research Scientist
@@ -72,8 +66,6 @@ Eros Gen AI - AI Research Scientist
 - Koriat, A. and Goldsmith, M. (1996). Monitoring and Control Processes in Memory Accuracy. Psychological Review, 103(3).
 - Mirzadeh, I., et al. (2024). GSM-Symbolic. arXiv:2410.05229.
 - Nelson, T. O. and Narens, L. (1990). Metamemory: A Theoretical Framework. Psychology of Learning and Motivation, 26.
-- Risko, E. F. and Gilbert, S. J. (2016). Cognitive Offloading. Trends in Cognitive Sciences, 20(9).
-- Sharma, M., et al. (2024). Towards Understanding Sycophancy in Language Models. ICLR.
 - Tian, K., et al. (2023). Just Ask for Calibration. EMNLP.
 - Tomani, C., et al. (2024). Uncertainty-Based Abstention in LLMs Improves Safety. arXiv:2404.10960.
 - Wang, J., et al. (2026). Are LLM Decisions Faithful to Verbal Confidence? arXiv:2601.07767.
