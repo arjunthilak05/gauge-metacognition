@@ -38,11 +38,11 @@ From an initial pool of 1,093 candidate items, Classical Test Theory item analys
 
 We tested eight models from four families: Gemini (3), Claude (3), Qwen (1), and DeepSeek (1), totaling 2,160 model-item evaluations.
 
-Gemini 2.5 Pro achieved 94.1% accuracy and ECE of 0.053 — the best raw performance and calibration in our sample. Its L-Score was 0.0. It never abstained once across 270 items. All three Gemini models share this behavior: zero abstentions, L-Score of exactly 0.0, despite confidence standard deviations as low as 0.018 (Gemini 2.5 Pro reports near-100% confidence on virtually everything).
+Gemini 2.5 Pro achieved 94.1% accuracy and ECE of 0.053 — the best raw performance and calibration in our sample. Its L-Score was 0.0. It never abstained once across 270 items. All three Gemini models share this pattern: L-Score of 0.0, with at most one abstention across 270 items, and confidence standard deviations as low as 0.018 (Gemini 2.5 Pro reports near-100% confidence on virtually everything).
 
 ![fig4_abstention.png](fig4_abstention.png)
 
-Three models crossed the threshold for meaningful strategic abstention. Claude Haiku 4.5 abstained on 25 of 270 items with 84% precision — most abstained items would have been wrong. Its L-Score was 0.870 and its overall metacognitive score (0.857) was the highest in the sample despite having the lowest accuracy (78.2%). Qwen3-235B abstained on 22 items (L = 0.813, overall = 0.868). DeepSeek V3.1 abstained on 6 items (L = 0.587). Strategic abstention is not an Anthropic-specific behavior.
+Three models crossed the threshold for meaningful strategic abstention. Claude Haiku 4.5 abstained on 25 of 270 items with 84% precision — most abstained items would have been wrong. Its L-Score was 0.870 despite having the lowest accuracy in the sample (78.2%). Qwen3-235B abstained on 22 items (L = 0.813, overall = 0.868 — the highest overall metacognitive score). DeepSeek V3.1 abstained on 6 items (L = 0.587). Strategic abstention is not an Anthropic-specific behavior.
 
 The per-difficulty breakdown makes the failure mode concrete. At difficulty levels 5-6, Gemini 3 Flash reported 97% mean confidence while accuracy was 73-84% — a calibration gap exceeding 20 percentage points. Claude Haiku reported 83-90% confidence at the same levels with similar accuracy but abstained on 13-27% of those items. The difference is structural: monitoring without control versus monitoring driving control.
 
@@ -52,7 +52,7 @@ Tomani et al. (2024) showed that uncertainty-based abstention reduces unsafe res
 
 ![fig2_composite.png](fig2_composite.png)
 
-Gemini 2.5 Pro is the better test-taker. Qwen3-235B and Claude Haiku are the most self-aware. For any deployment where the operator needs to know when to override — medical diagnosis, legal analysis, autonomous systems — monitoring without control is a failure mode that scaling alone will not fix.
+Gemini 2.5 Pro is the better test-taker. Qwen3-235B (overall 0.868) and Claude Haiku (overall 0.857) are the most self-aware. For any deployment where the operator needs to know when to override, monitoring without control is a failure mode that scaling alone will not fix.
 
 ## Organizational affiliations
 Eros Gen AI - AI Research Scientist
