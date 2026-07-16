@@ -78,8 +78,8 @@ metacog-benchmark/
 │   ├── final_items_v2.csv       # Selected 270 items
 │   └── items_270.py             # Python list for embedding in notebooks
 ├── figures/                     # All visualization PNGs
-├── writeup/
-│   └── writeup.md               # Competition writeup (1,065 words)
+└── writeup/
+    └── writeup.md               # Competition writeup (1,065 words)
 ```
 
 ## References
