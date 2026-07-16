@@ -1,5 +1,9 @@
 # GAUGE: Grading Awareness of Uncertainty and Grounded Epistemics
 
+> 🏆 **Grand Prize Winner** — [Measuring Progress Toward AGI: Cognitive Abilities](https://www.kaggle.com/competitions/kaggle-measuring-agi/hackathon-winners), a featured hackathon by **Google DeepMind × Kaggle**. GAUGE took one of four Grand Prizes across all tracks.
+
+![Grand Prize announcement on Kaggle](figures/kaggle_grand_prize.png)
+
 A benchmark for measuring metacognitive monitoring and control in large language models. Built for the Kaggle "Measuring Progress Toward AGI" Hackathon (Metacognition Track).
 
 Most benchmarks ask whether a model can answer correctly. GAUGE asks whether it knows when it can't, and whether it does anything about it.
