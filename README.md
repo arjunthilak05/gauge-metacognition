@@ -86,6 +86,10 @@ metacog-benchmark/
     └── writeup.md               # Competition writeup (1,065 words)
 ```
 
+## License
+
+This work — including the benchmark, dataset, source code, and writeup — is released under [CC0 1.0 Universal](LICENSE) (public domain dedication), as required by the competition's winner license terms.
+
 ## References
 
 - Nelson & Narens (1990). Metamemory: A Theoretical Framework. Psychology of Learning and Motivation.
