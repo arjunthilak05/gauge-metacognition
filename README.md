@@ -28,7 +28,7 @@ The best test-taker has the worst self-awareness. The model that knows when to s
 | 2 | Solve + report confidence 0-100 | Calibration (retrospective monitoring) |
 | 3 | Submit (+3/-1) or Abstain (+1/0) | Metacognitive control |
 
-Below 40% confidence, abstaining is the rational move. Gemini never gets there because it reports near-100% confidence on everything.
+Below 40% confidence, abstaining is the rational move. The Gemini models essentially never get there — a single abstention across 809 Gemini model-item runs — because they report near-100% confidence on everything.
 
 ## Results (8 models, 4 families)
 
@@ -42,6 +42,10 @@ Below 40% confidence, abstaining is the rational move. Gemini never gets there b
 | Gemini 2.5 Pro | 94.1% | 0.053 | 0.000 | 0/270 | 0.708 |
 | Gemini 3 Flash | 82.5% | 0.159 | 0.000 | 0/269 | 0.686 |
 | Gemini 2.5 Flash | 87.0% | 0.125 | 0.000 | 1/270 | 0.673 |
+
+*N varies slightly per model: items lost to API or parse failures were excluded for that model rather than imputed. 2,098 of 2,160 possible model-item evaluations (97.1%) completed; per-model denominators are shown in the Abstentions column.*
+
+*L-Scores computed from very few abstentions carry wide uncertainty — at 4 abstentions out of 270 (Sonnet 4.6, Sonnet 4), a single flipped decision can shift the value substantially. The high-abstention L-Scores (Haiku 25, Qwen 22) are the robust ones; treat L-Scores below ~10 abstentions as indicative rather than precise.*
 
 ## Scoring
 
