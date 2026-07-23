@@ -90,6 +90,10 @@ metacog-benchmark/
     └── writeup.md               # Competition writeup (1,065 words)
 ```
 
+## What's next — GAUGE at scale
+
+GAUGE is being expanded into a larger, ongoing benchmark: a broader set of frontier models across more families, re-runs to close the API-failure gaps in v1, a larger and harder item pool, and periodic leaderboard updates as new models ship. The goal is a standing public measure of whether AI systems act on their own uncertainty — not a one-off competition artifact. Watch this repo for the v2 release.
+
 ## License
 
 This work — including the benchmark, dataset, source code, and writeup — is released under [CC0 1.0 Universal](LICENSE) (public domain dedication), as required by the competition's winner license terms.
